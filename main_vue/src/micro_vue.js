@@ -1,19 +1,19 @@
 import { registerMicroApps, start } from 'qiankun';
 
+const CONTAINER_DEFAULT = 'micro_vue_default';
+
 function routes2microApps(routes, loader) {
   const microApps = [];
-  routes.map(route => {
-    const { apps, path } = route;
-    for(let key in apps) {
-      const url = apps[key];
-      microApps.push({
-        name: key,
-        entry: url,
-        container: `#${key}`,
-        loader,
-        activeRule: path
-      });
-    }
+  routes.map((route, index) => {
+    const { app, path } = route;
+    const url = app;
+    microApps.push({
+      name: path + url + index,
+      entry: url,
+      container: `#${CONTAINER_DEFAULT}`,
+      loader,
+      activeRule: path
+    });
   });
   return microApps;
 }
@@ -24,6 +24,15 @@ function register(routes, loader) {
 }
 
 function install(Vue) {
+  Vue.component('micro-view', {
+    render(h) {
+      return h('div', {
+        attrs: {
+          id: CONTAINER_DEFAULT
+        }
+      })
+    }
+  });
   Vue.mixin({
     beforeCreated() {
       if(this.$options.router) {
@@ -38,14 +47,11 @@ function install(Vue) {
       if(router) {
         const loader = loading => this.$children[0].loading = loading;
         loader(true);
-        setTimeout(() => {
-          register(router.routes, loader);
-          router.start();
-        }, 2000) 
+        register(router.routes, loader);
+        router.start();
       }
     },
   })
-  // Vue.component();
 }
 
 export function Router(routes) {

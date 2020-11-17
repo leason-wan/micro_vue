@@ -1,8 +1,14 @@
 import Vue from "vue";
 import App from "./App.vue";
+import { micro } from './micro_render';
 
 Vue.config.productionTip = false;
 
-new Vue({
+const { createApp, lifeCycle } = micro(Vue);
+
+createApp({
+  el: '#app',
   render: h => h(App)
-}).$mount("#app");
+});
+
+export const { bootstrap, mount, unmount } = lifeCycle;

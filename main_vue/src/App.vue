@@ -1,20 +1,14 @@
 <template>
   <div id="app">
-    <div v-if="loading">
+    <!-- <div v-if="loading">
       loading...
-    </div>
-    <div>
-      <div>
-        <!-- <micro-slot name="nav" /> -->
-        <div id="one"></div>
-        <h1>this for one app mounted</h1>
-      </div>
-      <div>
-        <!-- <micro-slot name="content" /> -->
-        <div id="two"></div>
-        <h1>this for two app mounted</h1>
-      </div>    
-    </div>
+    </div> -->
+    <h1>主页</h1>
+    <ul>
+      <li @click="push('/one')">one</li>
+      <li @click="push('/two')">two</li>
+    </ul>
+    <micro-view />
   </div>
 </template>
 
@@ -24,7 +18,12 @@ export default {
   name: 'App',
   data() {
     return {
-      loading: false
+      loading: false,
+    }
+  },
+  methods: {
+    push(url) {
+      history.pushState(null, null, url);
     }
   }
 }

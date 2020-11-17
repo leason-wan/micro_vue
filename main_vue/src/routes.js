@@ -1,17 +1,19 @@
 // path: location.href start with path, not strict
+const host = 'http://0.0.0.0';
 
 export default [
   { 
-    path: "/vue",
-    apps: {
-      one: 'http://192.168.25.55:8081',
-    }
+    path: "/one",
+    app: `${host}:8081`
   },
   { 
     path: "/two",
-    apps: {
-      'two_one': 'http://192.168.25.55:8082',
-      'two_two': 'http://192.168.25.55:8083',
-    }
+    app: `${host}:8082`
   },
+  // { 
+  //   path: "/vue/two",
+  //   apps: {
+  //     one: `${host}:8081`,
+  //   }
+  // },
 ];
